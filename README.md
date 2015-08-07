@@ -82,7 +82,7 @@ list](https://github.com/aliceriot/linkedlist) implementation, but I only
 need a subset of the operations written there, and I have different
 storage requirements here.
 
-In sort, we don't care much where we stick things in the linked list
+In short, we don't care much where we stick things in the linked list
 (since it's all pointed to by the same bin in the hash table) so we only
 need an operation that inserts nodes at the beginning. My other
 implementation also only included a single pointer to `char`, and here we
@@ -173,3 +173,4 @@ table = hashinit(100);
 ```
 
 to get a hashtable with enough room for 100 lists. Great!
+
