@@ -23,9 +23,8 @@ a problem, and the name of that problem is hash collision.
 One of the problems with this is that unless we allocate an amount of
 storage similar to the keyspace size to our array (the array whose indices
 we'll get from the hash function) we will have collisions. A collision is
-when two values (`title` and `director`, if we're storing movie info)
-produce the same hash value. We need to think hard about what to do in
-this case.
+when two keys produce the same hash value. We need to think hard about
+what to do in this case.
 
 If the keys for our key/value store (associative array) are going to be,
 say, strings of up to 20 characters, then the keyspace is really really
@@ -174,3 +173,9 @@ table = hashinit(100);
 
 to get a hashtable with enough room for 100 lists. Great!
 
+##Adding/updating/deleting/looking things up!
+
+So at this point we can initialize a hash table. We've also got functions
+that destroy a list, and another function that will destroy a whole
+hashtable (by destroy I mean `free`). That's all well and good, but what
+if we want to actually use the thing?
