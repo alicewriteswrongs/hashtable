@@ -9,7 +9,7 @@ pair, getting the value associated with a particular key, deleting
 a key-value pair, and so on.
 
 All that is great, but how do we actually implement it? Well, there are
-a variety of choices to be made. This image stolen from wikipedia gives us
+a variety of choices to be made. This image stolen from Wikipedia gives us
 an idea of what we're shooting for:
 
 ![](https://upload.wikimedia.org/wikipedia/commons/7/7d/Hash_table_3_1_1_0_1_0_0_SP.svg)
@@ -85,7 +85,7 @@ storage requirements here.
 In sort, we don't care much where we stick things in the linked list
 (since it's all pointed to by the same bin in the hash table) so we only
 need an operation that inserts nodes at the beginning. My other
-implementation also only included a single point to `char`, and here we
+implementation also only included a single pointer to `char`, and here we
 want two. Why? Because in order to distinguish between key/value pairs
 whose keys hash to the same value we need to store the key in the linked
 list as well. Great! Our list structs look like this:
@@ -106,12 +106,70 @@ typedef struct list {
 
 The operations are all pretty standard, and all found in `hashlist.h`.
 
+##Hash table implementation
 
+OK, so we've got our linked list sorted, how do we actually implement the
+hash table? We use the following struct:
 
+```C
+typedef struct hashtable {
+    int size;
+    list **table;
+} hashtable;
+```
 
+So basically we have a `size` attribute, and `table`, which is a pointer
+to an array of lists (or a pointer to a pointer to a list, if you like).
+Great! That's a little abstract though, maybe we can make it a little
+clearer by seeing the function we use to initialize this thing:
 
+```C
+hashtable *hashinit(int size)
+{ // allocates hashtable array, returns pointer to array
+    list **hasharray;
+    hasharray = malloc(sizeof (list) * size);
+    hashtable *hashtab;
+    hashtab = malloc(sizeof (hashtable));
 
+    int i;
+    for (i = 0; i < size; i++) {
+        hasharray[i] = listinit();
+    }
 
+    hashtab->table = hasharray;
+    hashtab->size = size;
+    return hashtab;
+}
+```
 
+OK let's break this down a bit. We take an argument `size`, which is sort
+of our 'best guess' for how big we think the table should be. Then we
+declare a pointer to an array of lists (`list **hasharray;`), which we
+point at a bunch of memory. We allocate enough memory to hold `size`
+lists, so if we have that `size = 1000` we'll allocate enough space for
+1000 lists. Then we iterate through the bins in our array, and we
+initialize an empty list (`listinit()`) for each bin to point to.
+`listinit` does the malloc-ing and returns the `*list` pointer for our
+`list` struct.
 
+So we've got an array of `size` consisting of pointers to empty lists, and
+our `listinit()` function takes care of all the details for initializing
+those. We've also declared another pointer, to the `hashtable` type. We
+set this to point to enough memory to hold a hash table (`malloc(sizeof
+(hashtable))`), and then we modify the pointers in that allocated memory.
 
+Remember that the `hashtable` struct has two attributes: an integer called
+`size` and `list **table`, which points to our list array. We set
+`hashtab->size` to the size argument we pass in, and we simply set
+`hashtab->table` to point to our array of list pointers. OK, so at this
+point we have heap-allocated enough memory to hold our list array, our
+actual lists, and the struct that lets us access them. We can then go
+ahead and return `hashtab`, our pointer. Whew! All this means that if we
+want a new hash table all we need to do is:
+
+```C
+hashtable *table;
+table = hashinit(100);
+```
+
+to get a hashtable with enough room for 100 lists. Great!
