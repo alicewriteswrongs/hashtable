@@ -73,6 +73,38 @@ unsigned char *hash(unsigned char *key, unsigned char *output)
 
 Then the function `hash` will return the SHA1 hash of `key`. Nice! 
 
+##Linked List implementation
+
+I mentioned above that I decided to use a linked list to implement
+separate chaining in order to avoid hash collisions. I was originally
+going to use my existing [linked
+list](https://github.com/aliceriot/linkedlist) implementation, but I only
+need a subset of the operations written there, and I have different
+storage requirements here.
+
+In sort, we don't care much where we stick things in the linked list
+(since it's all pointed to by the same bin in the hash table) so we only
+need an operation that inserts nodes at the beginning. My other
+implementation also only included a single point to `char`, and here we
+want two. Why? Because in order to distinguish between key/value pairs
+whose keys hash to the same value we need to store the key in the linked
+list as well. Great! Our list structs look like this:
+
+```C
+typedef struct node {
+    struct node *previous;
+    struct node *next;
+    char *key;
+    char *value;
+} node;
+
+typedef struct list {
+    node *head;
+    node *tail;
+} list;
+```
+
+The operations are all pretty standard, and all found in `hashlist.h`.
 
 
 
