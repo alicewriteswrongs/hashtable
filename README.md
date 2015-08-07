@@ -31,7 +31,7 @@ say, strings of up to 20 characters, then the keyspace is really really
 big. We do not want to allocate enough space to completely avoid
 collisions (which would require allocated space equal to keyspace size)
 since we'd probably like to store other things on our computer besides our
-small movie database.
+small hash table.
 
 So how do we get around this? Well, one simple way is with the modulo
 operator. Say we make a guess about how much storage to allocate - maybe
@@ -63,7 +63,7 @@ We're just going to do something like:
 ```C
 #include <openssl/sha.h>
 
-unsigned char *hash(unsigned char *key, unsigned char *output)
+void hash(unsigned char *key, unsigned char *output)
 { // get the hash of a key
     size_t len = sizeof(key);
     SHA1(key, len, output);
