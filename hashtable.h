@@ -26,7 +26,7 @@ unsigned char *hash(unsigned char *key, unsigned char *output);
 hashtable *hashinit(int size);
 void destroyhash(hashtable *oldtable);
 int hashtokey(unsigned char *hash, int size);
-char *lookuphash(hashtable *hashtab, char *key);
+/* char *lookuphash(hashtable *hashtab, char *key); */
 
 // function definitions
 unsigned char *hash(unsigned char *key, unsigned char *output)
@@ -34,6 +34,19 @@ unsigned char *hash(unsigned char *key, unsigned char *output)
     size_t len = sizeof(key);
     SHA1(key, len, output);
 }
+
+/* int hashtokey(unsigned char *keyhash, int size) */
+/* { // convert hash into an array key for the size */
+/*     printf("triple pants"); */
+/*     int i, arraykey = 1; */
+/*     int j = 0; */
+/*     while (i < size) { */
+/*         arraykey *= keyhash[j++]; */
+/*         i *= 256; */
+/*     } */
+/*     printf("arraykey: %d\n", arraykey); */
+/*     return (arraykey % size); */
+/* } */
 
 hashtable *hashinit(int size)
 { // allocates hashtable array, returns pointer to array
@@ -64,22 +77,18 @@ void destroyhash(hashtable *oldtable)
 void inserthash(hashtable *hashtab, unsigned char *key, char *value)
 { // insert key,value pair into hashtab
     unsigned char keyhash[SHA_DIGEST_LENGTH];
-    int arraykey;
-    hash(key, keyhash);
-    arraykey = hashtokey(keyhash, hashtab->size);
-    list *temp = hashtab->table[arraykey];
-    listinsert(temp, nodegen(key, value));
-}
-
-int hashtokey(unsigned char *keyhash, int size)
-{ // convert hash into an array key for the size
     int i, arraykey = 1;
     int j = 0;
-    while (i < size) {
+
+    hash(key, keyhash);
+    while (i < hashtab->size) {
         arraykey *= keyhash[j++];
         i *= 256;
     }
-    return arraykey % size;
+
+    arraykey = arraykey % hashtab->size;
+    list *temp = hashtab->table[arraykey];
+    listinsert(temp, nodegen(key, value));
 }
 
 /* char *lookuphash(hashtable *hashtab, char *key) */

@@ -46,23 +46,26 @@ int main() {
         printf("%02x ", trialtwo[i]);
     }
 
-    printf("\ndestroy a hashtable:\n");
-    destroyhash(table);
-    table = hashinit(100);
+    /* printf("\ndestroy a hashtable:\n"); */
+    /* destroyhash(table); */
+    hashtable *newtable;
+    newtable = hashinit(100);
     printf("success!\n");
-    inserthash(table, "key", "value");
+    inserthash(table, "foo", "bar");
+    printhashtab(table);
+    inserthash(newtable, "key", "value");
 
     printf("\ninsert some things into the table:\n");
-    inserthash(table, "mykey", "myvalue");
+    inserthash(newtable, "mykey", "myvalue");
     printf("success!\n");
 
     printf("\ntry to print the table:\n");
-    printhashtab(table);
+    printhashtab(newtable);
 
     printf("\nInsert more things!\n");
-    inserthash(table, "purple", "dinosaur");
-    inserthash(table, "blue", "potato");
-    inserthash(table, "chicken", "duck");
-    printhashtab(table);
+    inserthash(newtable, "purple", "dinosaur");
+    inserthash(newtable, "blue", "potato");
+    inserthash(newtable, "chicken", "duck");
+    printhashtab(newtable);
 
 }
