@@ -224,3 +224,29 @@ a way that a given key will always produce the same number. Once we have
 the index we can look up the right linked list, and we have a function to
 search within a linked list for a match on the key value. Great!
 
+Removing things is very similar. Since our linked list type already
+support a delete operation, all we need to do is:
+
+* get the linked list pointed to by our key
+* find the right node in our linked list
+* delete it!
+
+This looks like:
+
+```C
+void hashdel(hashtable *hashtab, unsigned char *toremove)
+{ // delete the key/value pair from the hashtable
+    unsigned char keyhash[SHA_DIGEST_LENGTH];
+    int index = hashindex(hashtab, toremove, keyhash);
+    list *templist = hashtab->table[index];
+    if (! (empty(templist))) {
+        node *delnode = listkeysearch(templist, toremove);
+        listremove(templist, delnode);
+    }
+}
+```
+
+Great! Since our hashtable contains empty linked lists by default (when we
+initialize it) we don't need to worry about doing anything if the list is
+already empty. If the node we're deleting is the last node, we'll just
+leave and empty linked list at that pointer.
