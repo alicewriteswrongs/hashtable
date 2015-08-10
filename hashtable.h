@@ -37,7 +37,7 @@ int hashindex(hashtable *table, unsigned char *key, unsigned char *output)
     return arraykey % table->size;
 }
 
-void *hashlookup(hashtable *hashtab, unsigned char *key)
+char *hashlookup(hashtable *hashtab, unsigned char *key)
 { // find the value for key in hashtab
     unsigned char keyhash[SHA_DIGEST_LENGTH];
     int index;
