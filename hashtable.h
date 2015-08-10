@@ -37,6 +37,20 @@ int hashindex(hashtable *table, unsigned char *key, unsigned char *output)
     return arraykey % table->size;
 }
 
+void *hashlookup(hashtable *hashtab, unsigned char *key)
+{ // find the value for key in hashtab
+    unsigned char keyhash[SHA_DIGEST_LENGTH];
+    int index;
+    index = hashindex(hashtab, key, keyhash);
+    list *templist = hashtab->table[index];
+    if (empty(templist))
+        return "not found";
+    else {
+        node *tempnode = listkeysearch(templist, key);
+        return tempnode->value;
+    }
+}
+
 void inserthash(hashtable *hashtab, unsigned char *key, char *value)
 { // insert key,value pair into hashtab
     unsigned char keyhash[SHA_DIGEST_LENGTH];
@@ -78,17 +92,13 @@ void printhashtab(hashtable *toprint)
     printf("keys:\tvalues:\n");
     for (i = 0; i < toprint->size; i++) {
         templist = toprint->table[i];
-        if (templist->head == templist->tail) {
-        } else {
+        if (! (empty(templist)))
             printlist(templist);
-        }
     }
 }
 
 void hash(unsigned char *key, unsigned char *output)
-{
+{ // for testing
     size_t len = sizeof(key);
     SHA1(key, len, output);
 }
-
-
