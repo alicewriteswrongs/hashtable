@@ -235,14 +235,14 @@ process is basically:
 * find the array index from the key hash
 * get the linked list at that index
 * error checking!
-* look search in the linked list for the key (we store keys in list nodes,
+* search in the linked list for the key (we store keys in list nodes,
   remember?)
 * return the value!
 
 Pretty straightforward when we lay it out, right? This is how we implement that:
 
 ```C
-void *hashlookup(hashtable *hashtab, unsigned char *key)
+char *hashlookup(hashtable *hashtab, unsigned char *key)
 { // find the value for key in hashtab
     unsigned char keyhash[SHA_DIGEST_LENGTH];
     int index;
@@ -266,7 +266,7 @@ the whole list node.
 ###Remove entries!
 
 Removing things is very similar to looking them up. Since our linked list
-type already support a delete operation, all we need to do is:
+type already supports a delete operation, all we need to do is:
 
 * get the linked list pointed to by our key
 * find the right node in our linked list
