@@ -86,6 +86,19 @@ int main() {
     inserthash(table, "pants", "attack");
     printhashtab(table);
 
+    printf("\nanything weird if I destroy it?\n");
+    destroyhash(table);
+
+    printf("\nk, we'll make another and put stuff in it.\n");
+    hashtable *second;
+    second = hashinit(200);
+    inserthash(second, "foo", "bar");
+    inserthash(second, "potato", "salad");
+    inserthash(second, "pants", "attack");
+    printhashtab(second);
+    printf("\nseems good!\n");
+
+
 
 }
 
