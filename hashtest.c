@@ -25,9 +25,6 @@ int main() {
     listremove(mylist, search);
     printlist(mylist);
 
-    printf("\ninitialize the hashtable:\n");
-    hashtable *table;
-    table = hashinit(100);
 
     printf("\ntwo things should hash to the same value:\n");
     unsigned char trial_text[] = "let's check that!";
@@ -46,26 +43,40 @@ int main() {
         printf("%02x ", trialtwo[i]);
     }
 
-    /* printf("\ndestroy a hashtable:\n"); */
-    /* destroyhash(table); */
-    hashtable *newtable;
-    newtable = hashinit(100);
-    printf("success!\n");
-    inserthash(table, "foo", "bar");
-    printhashtab(table);
-    inserthash(newtable, "key", "value");
+    printf("\ninitialize the hashtable:\n");
+    hashtable *table;
+    table = hashinit(100);
 
-    printf("\ninsert some things into the table:\n");
-    inserthash(newtable, "mykey", "myvalue");
-    printf("success!\n");
+    printf("\nwe should get reasonable keys?\n");
+    unsigned char keyhash[SHA_DIGEST_LENGTH];
+    printf("%d ", hashindex(table, "book", keyhash));
+    printf("%d ", hashindex(table, "floop", keyhash));
+    printf("%d ", hashindex(table, "waddle", keyhash));
+    printf("%d ", hashindex(table, "gimlet", keyhash));
+    printf("%d ", hashindex(table, "tricks", keyhash));
+    printf("%d ", hashindex(table, "asdfasdf", keyhash));
+    printf("%d ", hashindex(table, "giggles", keyhash));
+    printf("%d ", hashindex(table, "beer", keyhash));
+    printf("%d ", hashindex(table, "what?", keyhash));
+    printf("%d ", hashindex(table, "suuuure", keyhash));
+    printf("%d ", hashindex(table, "asdf", keyhash));
 
-    printf("\ntry to print the table:\n");
-    printhashtab(newtable);
+    printf("\none thing should always give the same key:\n");
+    printf("'books' gives %d\n", hashindex(table, "books", keyhash));
+    printf("'waddles' gives %d\n", hashindex(table, "waddles", keyhash));
+    printf("'books' gives %d\n", hashindex(table, "books", keyhash));
+    printf("'justnow' gives %d\n", hashindex(table, "justnow", keyhash));
+    printf("'waffles' gives %d\n", hashindex(table, "waffles", keyhash));
+    printf("'justnow' gives %d\n", hashindex(table, "justnow", keyhash));
+    printf("'waddles' gives %d\n", hashindex(table, "waddles", keyhash));
+    printf("'waffles' gives %d\n", hashindex(table, "waffles", keyhash));
+    printf("'ducks' gives %d\n", hashindex(table, "ducks", keyhash));
+    printf("'want' gives %d\n", hashindex(table, "want", keyhash));
+    printf("'ducks' gives %d\n", hashindex(table, "ducks", keyhash));
+    printf("'want' gives %d\n", hashindex(table, "want", keyhash));
+    // great!
 
-    printf("\nInsert more things!\n");
-    inserthash(newtable, "purple", "dinosaur");
-    inserthash(newtable, "blue", "potato");
-    inserthash(newtable, "chicken", "duck");
-    printhashtab(newtable);
+
 
 }
+
