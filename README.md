@@ -180,4 +180,47 @@ that destroy a list, and another function that will destroy a whole
 hashtable (by destroy I mean `free`). That's all well and good, but what
 if we want to actually use the thing?
 
+If we have a hashtable called `table` already instantiated we can add
+things to it with the `inserthash` function:
+
+```C
+void inserthash(hashtable *hashtab, unsigned char *key, char *value)
+{ // insert key,value pair into hashtab
+    unsigned char keyhash[SHA_DIGEST_LENGTH];
+    int index = hashindex(hashtab, key, keyhash);
+    list *temp = hashtab->table[index];
+    listinsert(temp, nodegen(key, value, keyhash));
+}
+```
+
+How does this work? We take as arguments a hashtable, a key, and a value.
+Then we use a helper function called `hashindex`, which basically takes
+a table, a key, and a pointer into which to write a hash, and it returns
+an integer. This integer is the index of the array of linked lists in our
+hash table where the value associated with our key is stored. Here's what
+the `hashindex` function looks like:
+
+```C
+int hashindex(hashtable *table, unsigned char *key, unsigned char *output)
+{ // takes a key, gives you the index for it
+    size_t len = sizeof(key);
+    SHA1(key, len, output);
+
+    int i = 1;
+    int arraykey = 1;
+    int j = 0;
+
+    while (i < table->size) {
+        arraykey *= output[j++];
+        i *= 256;
+    }
+    return arraykey % table->size;
+}
+```
+
+We're going to find the hash of our key with SHA1 again, and then we're
+going to produce a number from the hash and our hashtable size in such
+a way that a given key will always produce the same number. Once we have
+the index we can look up the right linked list, and we have a function to
+search within a linked list for a match on the key value. Great!
 
