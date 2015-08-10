@@ -22,18 +22,53 @@ typedef struct hashtable {
 } hashtable;
 
 // function declarations
-unsigned char *hash(unsigned char *key, unsigned char *output);
+int hashindex(hashtable *table, unsigned char *key, unsigned char *output);
+void hash(unsigned char *key, unsigned char *output);
 hashtable *hashinit(int size);
 void destroyhash(hashtable *oldtable);
 int hashtokey(unsigned char *hash, int size);
 /* char *lookuphash(hashtable *hashtab, char *key); */
 
-// function definitions
-unsigned char *hash(unsigned char *key, unsigned char *output)
-{ // get the hash of a key
+void hash(unsigned char *key, unsigned char *output)
+{
     size_t len = sizeof(key);
     SHA1(key, len, output);
 }
+
+// function definitions
+int hashindex(hashtable *table, unsigned char *key, unsigned char *output)
+{ // 
+    size_t len = sizeof(key);
+    SHA1(key, len, output);
+
+    int i = 1;
+    int arraykey = 1;
+    int j = 0;
+
+    while (i < table->size) {
+        arraykey *= output[j++];
+        i *= 256;
+    }
+    return arraykey % table->size;
+}
+
+/* void inserthash(hashtable *hashtab, unsigned char *key, char *value) */
+/* { // insert key,value pair into hashtab */
+/*     unsigned char keyhash[SHA_DIGEST_LENGTH]; */
+/*     int i, arraykey = 1; */
+/*     int j = 0; */
+
+/*     hash(key, keyhash); */
+/*     while (i < hashtab->size) { */
+/*         arraykey *= keyhash[j++]; */
+/*         i *= 256; */
+/*     } */
+
+/*     arraykey = arraykey % hashtab->size; */
+/*     list *temp = hashtab->table[arraykey]; */
+/*     listinsert(temp, nodegen(key, value)); */
+/* } */
+
 
 /* int hashtokey(unsigned char *keyhash, int size) */
 /* { // convert hash into an array key for the size */
@@ -73,24 +108,6 @@ void destroyhash(hashtable *oldtable)
     }
     free(oldtable);
 }
-
-void inserthash(hashtable *hashtab, unsigned char *key, char *value)
-{ // insert key,value pair into hashtab
-    unsigned char keyhash[SHA_DIGEST_LENGTH];
-    int i, arraykey = 1;
-    int j = 0;
-
-    hash(key, keyhash);
-    while (i < hashtab->size) {
-        arraykey *= keyhash[j++];
-        i *= 256;
-    }
-
-    arraykey = arraykey % hashtab->size;
-    list *temp = hashtab->table[arraykey];
-    listinsert(temp, nodegen(key, value));
-}
-
 /* char *lookuphash(hashtable *hashtab, char *key) */
 /* { */
 /*     unsigned char keyhash[SHA_DIGEST_LENGTH]; */
