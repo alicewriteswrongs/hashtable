@@ -3,12 +3,20 @@
 #include <stdlib.h>
 #include <openssl/sha.h>
 
+This is a doubly linked list that I wrote to use in my hash table
+implementation. It's sort of specialized for that, although mainly 
+just in that it has pointers to three different values (key, value,
+hash) and that it has a smaller set of functions for normal list
+operations (i.e. we only insert at the head of the list, no 
+function for reversing, etc). Check out my 
+
 // structs
 typedef struct node {
     struct node *previous;
     struct node *next;
     char *key;
     char *value;
+    unsigned char *hash;
 } node;
 
 typedef struct list {
@@ -16,18 +24,7 @@ typedef struct list {
     node *tail;
 } list;
 
-// function declarations
-list *listinit();
-void destroylist(list *oldlist);
-void printlist(list *toprint);
-node *nodegen(char *key, char *value);
-void listinsert(list *insertlist, node *toinsert);
-void listremove(list *removelist, node *toremove);
-node *listsearch(list *tosearch, char *key, char *value);
-node *listkeysearch(list *tosearch, char *key);
-
-// function definitions
-
+// functions
 list *listinit()
 {
     list *newlist;
@@ -37,6 +34,7 @@ list *listinit()
 
     sentinel->key = '\0';
     sentinel->value = '\0';
+    sentinel->hash = '\0';
     sentinel->next = sentinel;
     sentinel->previous = sentinel;
 
@@ -60,12 +58,13 @@ void destroylist(list *oldlist)
     free(oldlist);
 }
 
-node *nodegen(char *key, char *value)
+node *nodegen(char *key, char *value, unsigned char *hash)
 { // make a new node
     node *newnode;
     newnode = malloc(sizeof (node));
     newnode->key = key;
     newnode->value = value;
+    newnode->hash = hash;
     return newnode;
 }
 
