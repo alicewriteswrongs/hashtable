@@ -117,11 +117,10 @@ node *listkeysearch(list *tosearch, char *key)
 
 int empty(list *tocheck)
 {
-    if (list->head == list->tail) {
+    if (tocheck->head == tocheck->tail)
         return 1;
-    } else {
+    else
         return 0;
-    }
 }
 
 // debugging tools
