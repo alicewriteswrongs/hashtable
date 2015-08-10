@@ -98,6 +98,13 @@ int main() {
     printhashtab(second);
     printf("\nseems good!\n");
 
+    printf("\nlet's try looking thigns up\n");
+
+    printf("potato should be salad: %s\n", hashlookup(second, "potato"));
+    printf("foo should be bar: %s\n", hashlookup(second, "foo"));
+    printf("pants should be attack: %s\n", hashlookup(second, "pants"));
+    printf("we shouldn't find 'this': %s\n", hashlookup(second, "boo"));
+
 
 
 }
