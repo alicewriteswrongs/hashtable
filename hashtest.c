@@ -105,7 +105,13 @@ int main() {
     printf("pants should be attack: %s\n", hashlookup(second, "pants"));
     printf("we shouldn't find 'this': %s\n", hashlookup(second, "boo"));
 
+    printf("\noh no what about deleting\n");
+    printf("let's try to remove 'foo' from our hashtable:\n");
+    hashdel(second, "foo");
+    printhashtab(second);
 
+    printf("\ndestroy!\n");
+    destroyhash(second);
 
 }
 
