@@ -97,13 +97,13 @@ void printhashtab(hashtable *toprint)
     }
 }
 
-void remove(hashtable *hashtab, unsigned char *toremove)
+void hashdel(hashtable *hashtab, unsigned char *toremove)
 { // delete the key/value pair from the hashtable
     unsigned char keyhash[SHA_DIGEST_LENGTH];
-    int index;
-    list *templist = hashindex(hashtab, toremove, keyhash);
-    node *delnode = listkeysearch(templist, toremove)
-    // remove that node
+    int index = hashindex(hashtab, toremove, keyhash);
+    list *templist = hashtab->table[index];
+    node *delnode = listkeysearch(templist, toremove);
+    listremove(templist, delnode);
 }
 
 
