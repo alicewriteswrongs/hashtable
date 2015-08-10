@@ -3,12 +3,13 @@
 #include <stdlib.h>
 #include <openssl/sha.h>
 
-This is a doubly linked list that I wrote to use in my hash table
-implementation. It's sort of specialized for that, although mainly 
-just in that it has pointers to three different values (key, value,
-hash) and that it has a smaller set of functions for normal list
-operations (i.e. we only insert at the head of the list, no 
-function for reversing, etc). Check out my 
+/* This is a doubly linked list that I wrote to use in my hash table */
+/* implementation. It's sort of specialized for that, although mainly */ 
+/* just in that it has pointers to three different values (key, value, */
+/* hash) and that it has a smaller set of functions for normal list */
+/* operations (i.e. we only insert at the head of the list, no */ 
+/* function for reversing, etc). Check out my linked list repo */
+/* for more general purpose implementation */
 
 // structs
 typedef struct node {
