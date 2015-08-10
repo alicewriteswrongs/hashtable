@@ -10,9 +10,9 @@ int main() {
     printlist(mylist);
     
     printf("\nadd things:\n");
-    listinsert(mylist, nodegen("key", "value"));
-    listinsert(mylist, nodegen("bloop", "dingles"));
-    node *testnode = nodegen("canwe", "delete?");
+    listinsert(mylist, nodegen("key", "value", "\0"));
+    listinsert(mylist, nodegen("bloop", "dingles", "\0"));
+    node *testnode = nodegen("canwe", "delete?", "\0");
     listinsert(mylist, testnode);
     printlist(mylist);
 

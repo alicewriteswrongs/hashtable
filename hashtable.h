@@ -56,7 +56,7 @@ void inserthash(hashtable *hashtab, unsigned char *key, char *value)
     unsigned char keyhash[SHA_DIGEST_LENGTH];
     int index = hashindex(hashtab, key, keyhash);
     list *temp = hashtab->table[index];
-    listinsert(temp, nodegen(key, value));
+    listinsert(temp, nodegen(key, value, keyhash));
 }
 
 hashtable *hashinit(int size)
