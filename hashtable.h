@@ -102,8 +102,10 @@ void hashdel(hashtable *hashtab, unsigned char *toremove)
     unsigned char keyhash[SHA_DIGEST_LENGTH];
     int index = hashindex(hashtab, toremove, keyhash);
     list *templist = hashtab->table[index];
-    node *delnode = listkeysearch(templist, toremove);
-    listremove(templist, delnode);
+    if (! (empty(templist))) {
+        node *delnode = listkeysearch(templist, toremove);
+        listremove(templist, delnode);
+    }
 }
 
 
