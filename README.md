@@ -224,8 +224,42 @@ a way that a given key will always produce the same number. Once we have
 the index we can look up the right linked list, and we have a function to
 search within a linked list for a match on the key value. Great!
 
-Removing things is very similar. Since our linked list type already
-support a delete operation, all we need to do is:
+We also use that index when we want to look something up. Our lookup
+process is basically:
+
+* find the array index from the key hash
+* get the linked list at that index
+* error checking!
+* look search in the linked list for the key (we store keys in list nodes,
+  remember?)
+* return the value!
+
+Pretty straightforward when we lay it out, right? This is how we implement that:
+
+```C
+void *hashlookup(hashtable *hashtab, unsigned char *key)
+{ // find the value for key in hashtab
+    unsigned char keyhash[SHA_DIGEST_LENGTH];
+    int index;
+    index = hashindex(hashtab, key, keyhash);
+    list *templist = hashtab->table[index];
+    if (empty(templist))
+        return "not found";
+    else {
+        node *tempnode = listkeysearch(templist, key);
+        return tempnode->value;
+    }
+}
+```
+
+Ahh, nice. I vacillated a bit on whether to just return `tempnode->value`,
+which is the value part of the key/value pair, or whether to return the
+whole node. I figured since the hashtable is really supposed to be
+a key/value store it makes more sense to just return the actual value than
+the whole list node.
+
+Removing things is very similar to looking them up. Since our linked list
+type already support a delete operation, all we need to do is:
 
 * get the linked list pointed to by our key
 * find the right node in our linked list
