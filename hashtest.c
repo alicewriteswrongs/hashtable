@@ -76,6 +76,15 @@ int main() {
     printf("'want' gives %d\n", hashindex(table, "want", keyhash));
     // great!
 
+    printf("\ncan we still print everything OK?\n");
+    printhashtab(table);
+    // works when nothing is in it!
+    
+    printf("\ncan we insert stuff?\n");
+    inserthash(table, "foo", "bar");
+    inserthash(table, "potato", "salad");
+    inserthash(table, "pants", "attack");
+    printhashtab(table);
 
 
 }
