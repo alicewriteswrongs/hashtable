@@ -180,6 +180,9 @@ that destroy a list, and another function that will destroy a whole
 hashtable (by destroy I mean `free`). That's all well and good, but what
 if we want to actually use the thing?
 
+
+###Add stuff
+
 If we have a hashtable called `table` already instantiated we can add
 things to it with the `inserthash` function:
 
@@ -224,6 +227,8 @@ a way that a given key will always produce the same number. Once we have
 the index we can look up the right linked list, and we have a function to
 search within a linked list for a match on the key value. Great!
 
+###Look stuff up!
+
 We also use that index when we want to look something up. Our lookup
 process is basically:
 
@@ -257,6 +262,8 @@ which is the value part of the key/value pair, or whether to return the
 whole node. I figured since the hashtable is really supposed to be
 a key/value store it makes more sense to just return the actual value than
 the whole list node.
+
+###Remove entries!
 
 Removing things is very similar to looking them up. Since our linked list
 type already support a delete operation, all we need to do is:
