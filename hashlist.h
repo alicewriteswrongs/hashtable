@@ -115,6 +115,15 @@ node *listkeysearch(list *tosearch, char *key)
     return tosearch->tail;
 }
 
+int empty(list *tocheck)
+{
+    if (list->head == list->tail) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 // debugging tools
 void printlist(list *toprint)
 {
