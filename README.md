@@ -291,3 +291,11 @@ Great! Since our hashtable contains empty linked lists by default (when we
 initialize it) we don't need to worry about doing anything if the list is
 already empty. If the node we're deleting is the last node, we'll just
 leave and empty linked list at that pointer.
+
+##Wrapping up
+
+Well, that's it! If you want to use this in a project you can add this
+repo as a git submodule in your project, and then do `#include
+"hashtable/hashtable.h"` in any file where you'd like to use a hash table.
+
+Happy hashing!
