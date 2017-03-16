@@ -1,4 +1,4 @@
-#Hash table
+# Hash table
 
 OK, we're going to make a hash table! Cool! What is a hash table? Well,
 it's basically a data structure that implements an associative array. An
@@ -18,7 +18,7 @@ So what we'd like is a function where we can hash a string like `John
 Smith` and get the array index `02` out. That sounds great, but we've got
 a problem, and the name of that problem is hash collision.
 
-##Collisions and collisions
+## Collisions and collisions
 
 One of the problems with this is that unless we allocate an amount of
 storage similar to the keyspace size to our array (the array whose indices
@@ -49,7 +49,7 @@ I wrote a new implementation of a doubly-linked list that includes two
 `*char` in order to hold both the key and the value (we want to store both
 in our list so that we can tell which value corresponds to which key).
 
-##Hash functions
+## Hash functions
 
 I think for this we're just going to use the SHA1 hash - this isn't
 considered secure for crypto work but it should be good enough here. We
@@ -72,7 +72,7 @@ void hash(unsigned char *key, unsigned char *output)
 
 Then the function `hash` will return the SHA1 hash of `key`. Nice! 
 
-##Linked List implementation
+## Linked List implementation
 
 I mentioned above that I decided to use a linked list to implement
 separate chaining in order to avoid hash collisions. I was originally
@@ -105,7 +105,7 @@ typedef struct list {
 
 The operations are all pretty standard, and all found in `hashlist.h`.
 
-##Hash table implementation
+## Hash table implementation
 
 OK, so we've got our linked list sorted, how do we actually implement the
 hash table? We use the following struct:
@@ -173,7 +173,7 @@ table = hashinit(100);
 
 to get a hashtable with enough room for 100 lists. Great!
 
-##Adding/updating/deleting/looking things up!
+## Adding/updating/deleting/looking things up!
 
 So at this point we can initialize a hash table. We've also got functions
 that destroy a list, and another function that will destroy a whole
@@ -181,7 +181,7 @@ hashtable (by destroy I mean `free`). That's all well and good, but what
 if we want to actually use the thing?
 
 
-###Add stuff
+### Add stuff
 
 If we have a hashtable called `table` already instantiated we can add
 things to it with the `inserthash` function:
@@ -227,7 +227,7 @@ a way that a given key will always produce the same number. Once we have
 the index we can look up the right linked list, and we have a function to
 search within a linked list for a match on the key value. Great!
 
-###Look stuff up!
+### Look stuff up!
 
 We also use that index when we want to look something up. Our lookup
 process is basically:
@@ -263,7 +263,7 @@ whole node. I figured since the hashtable is really supposed to be
 a key/value store it makes more sense to just return the actual value than
 the whole list node.
 
-###Remove entries!
+### Remove entries!
 
 Removing things is very similar to looking them up. Since our linked list
 type already supports a delete operation, all we need to do is:
@@ -292,7 +292,7 @@ initialize it) we don't need to worry about doing anything if the list is
 already empty. If the node we're deleting is the last node, we'll just
 leave and empty linked list at that pointer.
 
-##Wrapping up
+## Wrapping up
 
 Well, that's it! If you want to use this in a project you can add this
 repo as a git submodule in your project, and then do `#include
