@@ -2,6 +2,10 @@ import Prelude
 
 -- My (naive) implementation of a dictionary in Haskell
 -- I have (no/very little) idea what I'm doing
+-- 
+-- our Dictionary data type can either be Empty, a Leaf node
+-- (which holds a key and a value), or an inner Node, which
+-- has a left and right dictionary
 data Dictionary k v
   = Empty
   | Leaf k
@@ -60,3 +64,31 @@ toList
 toList Empty = []
 toList (Leaf k v) = [(k, v)]
 toList (Node _ left right) = (toList left) ++ (toList right)
+
+keys
+  :: (Show k, Ord k)
+  => Dictionary k v -> [k]
+keys Empty = []
+keys (Leaf k _) = [k]
+keys (Node _ l r) = (keys l) ++ (keys r)
+
+values :: Dictionary k v -> [v]
+values Empty = []
+values (Leaf _ v) = [v]
+values (Node _ l r) = (values l) ++ (values r)
+
+names =
+  [ "kathryn"
+  , "josie"
+  , "audrey"
+  , "laura"
+  , "maddie"
+  , "donna"
+  , "ben"
+  , "sheriff truman"
+  , "dale"
+  , "james"
+  ]
+
+mymap =
+  fromList $ zip [1..10] names
